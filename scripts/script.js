@@ -42,8 +42,16 @@ function DisplayAirports(){
 }
 
 
-
+let test = [];
 map.on('click', function (e){
-    console.log('bleh')
-    console.log(e.latlng)
+
+    let point = turf.point([e.latlng.lat,e.latlng.lng]);
+    for (let i = 0; i < voronoiPolygons.features.length; i++){
+       
+       if(turf.booleanPointInPolygon(point,voronoiPolygons.features[i])){
+        console.log(voronoiPolygons.features[i])
+       }
+    
+    }
+    
 })//evennt listener :B
