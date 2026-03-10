@@ -42,10 +42,11 @@ L.tileLayer(
 
 function DisplayAirports(){;
     L.geoJSON(voronoiPolygons, {
-        fillOpacity: 0.1,
-        opacity: 1
+        fillOpacity: 0,
+        opacity: 0
     }).addTo(map)
-    //L.geoJSON(airports).addTo(map)
+
+    L.geoJSON(airports).bindPopup("test").addTo(map)
     
     
 }
@@ -54,8 +55,18 @@ function DisplayAirports(){;
 
 map.on('click', function (e){
 
-    let point = turf.point([e.latlng.lat,e.latlng.lng]);
-    console.log(turf.booleanPointInPolygon(point,voronoiPolygons))
+    let point = turf.point([e.latlng.lng,e.latlng.lat]);
+    for (let i = 0; i < voronoiPolygons.features.length; i++){
+        if (turf.booleanPointInPolygon(point, voronoiPolygons.features[i])){
+            L.popup()
+            .setLatLng([airports.features[i].geometry.coordinates[1],airports.features[i].geometry.coordinates[0]])
+            .setContent(airports.features[i].properties.name +
+                " (" + airports.features[i].properties.iata_code + ")"  +
+                ' <a href="' + airports.features[i].properties.wikipedia + '"> wikipedia </a>'
+            )
+            .openOn(map);
+        }
+    }
    
     
 }) 
