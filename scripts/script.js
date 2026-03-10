@@ -11,7 +11,7 @@ fetch("data/airports.geojson")
         console.log("data fetched :)")
         voronoiPolygons = turf.voronoi(airports);
         for (i = 0; i < airports.features.length; i++){
-            voronoiPolygons.features[i].properties.name = airport.features[i].properties.name
+            voronoiPolygons.features[i].properties.name = airports.features[i].properties.name
         }
     
         console.log("run voronoi")
@@ -41,24 +41,25 @@ L.tileLayer(
 
 
 function DisplayAirports(){;
-    select_port = airports.features[700]
-    select_pol = voronoiPolygons.features[700];
-    L.geoJSON( select_port).addTo(map)
-    L.geoJSON(select_pol).addTo(map)
+    L.geoJSON(voronoiPolygons, {
+        fillOpacity: 0.1,
+        opacity: 1
+    }).addTo(map)
+    //L.geoJSON(airports).addTo(map)
+    
     
 }
 
 
-let test = [];
+
 map.on('click', function (e){
 
     let point = turf.point([e.latlng.lat,e.latlng.lng]);
-    for (let i = 0; i < voronoiPolygons.features.length; i++){
-       
-       if(turf.booleanPointInPolygon(point,voronoiPolygons.features[i])){
-        console.log(voronoiPolygons.features[i])
-       }
+    console.log(turf.booleanPointInPolygon(point,voronoiPolygons))
+   
     
-    }
-    
-})//evennt listener :B
+}) 
+
+window.onload = function() {
+    FetchAiports()
+}
