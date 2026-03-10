@@ -61,7 +61,7 @@ map.on('click', function (e){
             L.popup()
             .setLatLng([airports.features[i].geometry.coordinates[1],airports.features[i].geometry.coordinates[0]])
             .setContent(airports.features[i].properties.name +
-                " (" + airports.features[i].properties.iata_code + ")"  +
+                " (" + airports.features[i].properties.iata_code + "), "  +
                 ' <a href="' + airports.features[i].properties.wikipedia + '"> wikipedia </a>'
             )
             .openOn(map);
